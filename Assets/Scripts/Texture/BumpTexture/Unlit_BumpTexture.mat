@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Unlit_PerFragment
-  m_Shader: {fileID: 4800000, guid: 42012f30c702483d83ebaf2669dadd90, type: 3}
+  m_Name: Unlit_BumpTexture
+  m_Shader: {fileID: 4800000, guid: 8ad3e96229f749a8bf2f257841c4d5fb, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -22,11 +22,20 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - _BumpMap:
+        m_Texture: {fileID: 2800000, guid: db98c3003233db94db27c4d6787be0ce, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 8b3fef4cd87829a44a18886fbfae18af, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _SpecularFactor: 10
+    - _BumpScale: 1.5
+    - _SpecularFactor: 18.4
     m_Colors:
-    - _MainColor: {r: 1, g: 0, b: 0, a: 1}
-    - _SpecularColor: {r: 1, g: 0.9540519, b: 0, a: 1}
+    - _MainColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []
