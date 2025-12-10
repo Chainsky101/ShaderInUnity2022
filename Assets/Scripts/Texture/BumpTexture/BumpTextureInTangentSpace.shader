@@ -7,7 +7,7 @@
     	// 法线纹理
     	_BumpMap("BumpMap", 2D) = "white"{}
     	// 凸块缩放
-    	_BumpScale("BumpScale", Range(-1,1)) = 1
+    	_BumpScale("BumpScale", Range(-10,10)) = 1
     	// 漫反射颜色
     	_MainColor("MainColor", Color) = (1,1,1,1)
     	// 高光反射颜色
@@ -78,12 +78,12 @@
 				return UNITY_LIGHTMODEL_AMBIENT * albedo;
 			}
 
-			fixed3 getLambertDiffuseLightColor(in float3 normalTangentDir, in fixed3 lightTangentDir, in fixed3 albedo)
+			fixed3 getLambertDiffuseLightColor(in fixed3 normalTangentDir, in fixed3 lightTangentDir, in fixed3 albedo)
 			{
 				return _LightColor0 * albedo * max(0,dot(normalTangentDir, lightTangentDir));
 			}
 
-			fixed3 getSpecularLightColor(in fixed3 semi_light_view, in float3 normalTangentDir)
+			fixed3 getSpecularLightColor(in fixed3 semi_light_view, in fixed3 normalTangentDir)
 			{
 				return _LightColor0.rgb * _SpecularColor.rgb * pow(max(0, dot(semi_light_view, normalTangentDir)), _SpecularFactor);
 			}
@@ -92,8 +92,9 @@
 			{
 				// get the color representation of normal, and then unpack it.
 				// normal in tangent world
-				float3 normal = UnpackNormal(tex2D(_BumpMap, i.uvBump));
-				normal *= _BumpScale;
+				fixed3 normal = UnpackNormal(tex2D(_BumpMap, i.uvBump));
+				normal.xy *= _BumpScale;
+				normal.z = sqrt(1.0 - saturate(dot(normal.xy, normal.xy)));
 				// main texture color
 				fixed3 textureColor = tex2D(_MainTex, i.uvTex);
 				fixed3 blendingColor = textureColor * _MainColor.rgb;
