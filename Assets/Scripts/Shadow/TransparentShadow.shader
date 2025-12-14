@@ -1,4 +1,4 @@
-﻿Shader "Unlit/TransparentDoubleFace"
+Shader "Unlit/TransparentShadow"
 {
     Properties
     {
@@ -13,6 +13,7 @@
         // 主透明度
         _AlphaScale("AlphaScale", Range(0, 1)) = 1
     }
+    
     SubShader
     {
         Tags
@@ -172,4 +173,5 @@
             ENDCG
         }
     }
+    Fallback "Legacy Shaders/Transparent/VertexLit"
 }
