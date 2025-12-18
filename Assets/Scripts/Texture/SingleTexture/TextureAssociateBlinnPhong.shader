@@ -9,7 +9,9 @@ Shader "Unlit/TextureAssociateBlinnPhong"
         // 高光幂系数
         _SpecularFactor("SpecularFactor", Range(0,50)) = 3.5
         // 主纹理
-        _MainTexture("MainTexture", 2D) = "white"{}
+        _MainTex("MainTexture", 2D) = "white"{}
+        // 叠加颜色
+        _AddColor("AddColor", Color) = (0,0,0,1)
         
     }
     SubShader
@@ -39,8 +41,9 @@ Shader "Unlit/TextureAssociateBlinnPhong"
             float4 _MainColor;
             float4 _SpecularColor;
             float _SpecularFactor;
-            sampler2D _MainTexture;
-            float4 _MainTexture_ST;
+            sampler2D _MainTex;
+            float4 _MainTex_ST;
+            fixed4 _AddColor;
 
             fixed3 getAmbientLightColor(in fixed3 blendingColor)
             {
@@ -64,19 +67,19 @@ Shader "Unlit/TextureAssociateBlinnPhong"
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.vertexWorldPos = mul(UNITY_MATRIX_M, v.vertex);
                 o.normal = UnityObjectToWorldNormal(v.normal);
-                o.uv = TRANSFORM_TEX(v.texcoord, _MainTexture);
+                o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
                
                 return o;
             }
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed3 textureColor = tex2D(_MainTexture, i.uv);
+                fixed3 textureColor = tex2D(_MainTex, i.uv);
                 fixed3 blendingColor = _MainColor.rgb * textureColor;
                 fixed3 color = getLambertDiffuseLightColor(i.normal, blendingColor) +getAmbientLightColor(blendingColor)
                     + getSpecularLightColor(i.vertexWorldPos, i.normal);
                 
-                return fixed4(color,1);
+                return fixed4(color,1) + _AddColor;
             }
             ENDCG
         }

@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Unlit_DiffuseFresnelReflection
-  m_Shader: {fileID: 4800000, guid: ba996bec38dc8e84a8eb88ae0080d6fc, type: 3}
+  m_Name: Unlit_BillboardEffect
+  m_Shader: {fileID: 4800000, guid: dfcc3a3c9fec89a48a8da3dcee22712a, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -23,14 +23,15 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _CubeMap:
-        m_Texture: {fileID: 8900000, guid: 49d28268ebe59bf409aaef39a2a0877b, type: 2}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: e57b4758ba62723408db2f5989fbbe9e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _FresnelScale: 0.5
+    - _BillboardType: 0
+    - _VerticalBillboardRatio: 0
+    - _VerticalBillboarding: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _ReflectiveColor: {r: 1, g: 1, b: 1, a: 1}
   m_BuildTextureStacks: []

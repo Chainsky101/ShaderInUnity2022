@@ -59,7 +59,7 @@ Shader "Unlit/DiffuseFresnelReflection"
                 // calculate cubemap color
                 fixed3 cubemapColor = texCUBE(_CubeMap, i.reflectionWorldDir).rgb;
                 // calculate lambert diffuse color
-                fixed3 lambertDiffuseColor = _LightColor0.rgb * _LightColor0 * max(0, dot(i.normalWorldDir, lightWorldDir));
+                fixed3 lambertDiffuseColor = _LightColor0.rgb * _Color.rgb * max(0, dot(i.normalWorldDir, lightWorldDir));
                 // calculate light attenuation
                 UNITY_LIGHT_ATTENUATION(attenuation, i, i.vertexWorldPos);
                 fixed3 color = UNITY_LIGHTMODEL_AMBIENT.rgb + lerp(lambertDiffuseColor, cubemapColor, fresnelReflectionIndex) * attenuation;
