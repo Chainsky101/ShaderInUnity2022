@@ -318,13 +318,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1830429461}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 88fdb441af8a5e34f95fcbbd4b9c1c84, type: 3}
+  m_Script: {fileID: 11500000, guid: 79f8e9a7a6ebf4242944725449433a49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shader: {fileID: 4800000, guid: d5ec5b8cfacd0264998e7c3671d06312, type: 3}
-  edgeColor: {r: 0, g: 0, b: 0, a: 1}
-  backgroundColor: {r: 1, g: 1, b: 1, a: 1}
-  backgroundExtent: 1
+  shader: {fileID: 4800000, guid: d5c9fe36a1935b94fae731d14deb8477, type: 3}
+  luminanceThreshold: 0.14
+  sampleCount: 4
+  blurSpread: 0.8
+  downSample: 4
 --- !u!1 &1879837402
 GameObject:
   m_ObjectHideFlags: 0
@@ -404,7 +405,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

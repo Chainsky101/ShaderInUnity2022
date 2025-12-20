@@ -14,11 +14,11 @@ namespace ScreenPostProcess
         {
             get
             {
-                if (shader == null || !shader.isSupported)
+                if (shader is null || !shader.isSupported)
                     return null;
                 else
                 {
-                    if (_material != null && _material.shader == shader)
+                    if (_material is not null && _material.shader == shader)
                         return _material;
                     
                     _material = new Material(shader);

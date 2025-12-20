@@ -10,7 +10,7 @@ namespace ScreenPostProcess.EdgeDetect
         public float backgroundExtent = 0;
         protected override void UpdateProperty()
         {
-            if (Material != null)
+            if (Material is not null)
             {
                 Material.SetColor("_EdgeColor", edgeColor);
                 Material.SetColor("_BackgroundColor", backgroundColor);
