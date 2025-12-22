@@ -23,14 +23,13 @@ Shader "Unlit/GetNormal"
             };
 
             sampler2D _MainTex;
-            float4 _MainTex_ST;
             sampler2D _CameraDepthNormalsTexture;
 
             v2f vert (appdata_base v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.texcoord, _MainTex);
+                o.uv = v.texcoord;
                 return o;
             }
 
