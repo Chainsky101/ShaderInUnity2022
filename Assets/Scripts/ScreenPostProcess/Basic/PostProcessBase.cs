@@ -14,17 +14,15 @@ namespace ScreenPostProcess
         {
             get
             {
-                if (shader is null || !shader.isSupported)
+                if (shader == null || !shader.isSupported)
                     return null;
-                else
-                {
-                    if (_material is not null && _material.shader == shader)
-                        return _material;
-                    
-                    _material = new Material(shader);
-                    _material.hideFlags = HideFlags.DontSave;
+                
+                if (_material != null && _material.shader == shader)
                     return _material;
-                }
+                
+                _material = new Material(shader);
+                _material.hideFlags = HideFlags.DontSave;
+                return _material;
             }
         }
 
@@ -32,7 +30,7 @@ namespace ScreenPostProcess
         {
             // update the property override in subclass before transfer texture
             UpdateProperty();
-            if(Material is not null)
+            if(Material != null)
                 Graphics.Blit(source, destination, Material);
             else
             {

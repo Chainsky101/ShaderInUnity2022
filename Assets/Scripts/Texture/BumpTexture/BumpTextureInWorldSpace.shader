@@ -141,4 +141,5 @@
             ENDCG
         }
     }
+    Fallback "Legacy Shaders/Bumped Diffuse"
 }
