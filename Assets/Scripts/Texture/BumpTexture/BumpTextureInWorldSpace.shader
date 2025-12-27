@@ -15,11 +15,16 @@
         {
             Tags
             {
-                "LightMode"="ForwardBase"
+                    "LightMode"="ForwardBase"
+    //            "Queue"="AlphaTest"
+    //            "IgnoreProjector"="Ture"
+    //            "RenderType"="TransparentCutout"
             }
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
+            // make fog work
+            #pragma multi_compile_fog
 
             #include "UnityCG.cginc"
             #include "Lighting.cginc"
@@ -44,6 +49,7 @@
                 float4 MatrixFirst : TEXCOORD1;
                 float4 MatrixSecond : TEXCOORD2;
                 float4 MatrixThird : TEXCOORD3;
+                UNITY_FOG_COORDS(4)
             };
 
             sampler2D _MainTexture;
@@ -71,12 +77,12 @@
                 
                 fixed3 xAxisWorldDir = UnityObjectToWorldDir(v.tangent);
                 fixed3 zAxisWorldDir = UnityObjectToWorldNormal(v.normal);
-                fixed3 yAxisWorldDir = cross(xAxisWorldDir, zAxisWorldDir) * v.tangent.w;
+                fixed3 yAxisWorldDir = cross(zAxisWorldDir, xAxisWorldDir) * v.tangent.w;
                 fixed3x3 Matrix_TtoW = fixed3x3(xAxisWorldDir, yAxisWorldDir, zAxisWorldDir);
-                Matrix_TtoW = transpose(Matrix_TtoW);
                 o.MatrixFirst = fixed4(Matrix_TtoW[0], vertexWorldPos.x);
                 o.MatrixSecond = fixed4(Matrix_TtoW[1], vertexWorldPos.y);
                 o.MatrixThird = fixed4(Matrix_TtoW[2], vertexWorldPos.z);
+                UNITY_TRANSFER_FOG(o, o.vertex);
                 return o;
             }
 
@@ -136,10 +142,103 @@
                 fixed3 col = getAmbientLightColor(albedo)
                     + getLambertDiffuseLightColor(normalWorldDir, albedo)
                     + getSpecularLightColor(normalWorldDir, viewWorldDir);
+                // apply fog
+                UNITY_APPLY_FOG(i.fogCoord, col);
                 return fixed4(col, 1);
             }
             ENDCG
         }
+        // 简化版DepthNormals Pass（通常这就够了）
+        Pass
+        {
+            Name "DepthNormals"
+            Tags { "LightMode" = "DepthNormals" }
+            
+            ZWrite On
+            ZTest LEqual
+            Cull Back
+            
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #pragma target 3.0
+            
+            #include "UnityCG.cginc"
+            
+            struct appdata
+            {
+                float4 vertex : POSITION;
+                float3 normal : NORMAL;
+            };
+            
+            struct v2f
+            {
+                float4 pos : SV_POSITION;
+                float3 normal : TEXCOORD0;
+            };
+            
+            v2f vert (appdata v)
+            {
+                v2f o;
+                o.pos = UnityObjectToClipPos(v.vertex);
+                
+                // 计算视图空间法线
+                o.normal = mul((float3x3)UNITY_MATRIX_IT_MV, v.normal);
+                o.normal = normalize(o.normal);
+                
+                return o;
+            }
+            
+            float4 frag (v2f i) : SV_Target
+            {
+                // 归一化法线
+                float3 normal = normalize(i.normal);
+                
+                // 只编码法线，深度部分让Unity自动处理
+                // 这是Unity Standard Shader的做法
+                float scale = 1.7777;
+                float2 enc = normal.xy / (normal.z + 1.0);
+                enc /= scale;
+                enc = enc * 0.5 + 0.5;
+                
+                // 返回编码的法线，深度部分设为0
+                return float4(enc, 0.0, 0.0);
+            }
+            ENDCG
+        }
+        // Pass 3: Shadow Caster Pass
+        Pass
+        {
+            Name "ShadowCaster"
+            Tags { "LightMode" = "ShadowCaster" }
+            
+            ZWrite On
+            ZTest LEqual
+            
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
+            #pragma multi_compile_shadowcaster
+            
+            #include "UnityCG.cginc"
+            
+            struct v2f {
+                V2F_SHADOW_CASTER;
+            };
+            
+            v2f vert(appdata_base v)
+            {
+                v2f o;
+                TRANSFER_SHADOW_CASTER_NORMALOFFSET(o)
+                return o;
+            }
+            
+            float4 frag(v2f i) : SV_Target
+            {
+                SHADOW_CASTER_FRAGMENT(i)
+            }
+            ENDCG
+        }
     }
-    Fallback "Legacy Shaders/Bumped Diffuse"
+    Fallback "Standard"
 }

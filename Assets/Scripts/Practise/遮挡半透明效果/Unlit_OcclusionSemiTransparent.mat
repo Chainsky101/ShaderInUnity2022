@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Unlit_ComprehensiveShadow
-  m_Shader: {fileID: 4800000, guid: 4c1ec60f591a4665b2b3bc2854bb0a9d, type: 3}
+  m_Name: Unlit_OcclusionSemiTransparent
+  m_Shader: {fileID: 4800000, guid: d63e31d7ec7da7f4e9196c0659672d99, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -22,11 +22,13 @@ Material:
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 30df7465011d1564e853a7423c70e5b1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _SpecularFactor: 17.7
-    m_Colors:
-    - _MainColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TransparentIndex: 0.194
+    m_Colors: []
   m_BuildTextureStacks: []

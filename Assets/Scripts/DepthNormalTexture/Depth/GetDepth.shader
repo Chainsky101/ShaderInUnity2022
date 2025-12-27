@@ -35,9 +35,9 @@ Shader "Unlit/GetDepth"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                // 获得裁剪空间下的深度 [-1, 1]
+                // [0, 1]的非线性深度
                 float depth = SAMPLE_DEPTH_TEXTURE(_CameraDepthTexture, i.uv);
-                // 将非线性的深度 转换到 观察空间下， 转换到 [0,1] 内（深度线性值）
+                // 方法1：转换为[0,1]范围的线性深度
                 fixed linearDepth = Linear01Depth(depth);
                 return fixed4(linearDepth, linearDepth, linearDepth,1);
                 // 测试2：尝试采样深度

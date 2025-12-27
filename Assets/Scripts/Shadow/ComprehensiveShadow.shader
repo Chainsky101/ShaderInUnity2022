@@ -11,13 +11,16 @@
     }
     SubShader
     {
+        Tags
+        {
+            "LightMode" = "ForwardBase"
+            "RenderType" = "Opaque"
+            "Queue"="Geometry"                
+        }
         // Base Pass
         Pass
         {
-            Tags
-            {
-                "LightMode" = "ForwardBase"
-            }
+            
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -175,6 +178,8 @@
             }
             ENDCG
         }
+
+
     }
-    Fallback "Legacy Shaders/Specular"
+    Fallback "Standard" 
 }
