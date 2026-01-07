@@ -113,7 +113,6 @@
 				// gradient color
 				fixed semiLambertFactor = dot(normal, i.lightTangentSpaceDir) * 0.5 + 0.5;
 				fixed3 gradientColor = tex2D(_GradientTex,fixed2(semiLambertFactor,semiLambertFactor));
-				
 				fixed3 color = getAmbientColor(blendingColor)	// 环境光颜色
 					+ getSemiLambertDiffuseLightColor(blendingColor, gradientColor)		//漫反射光颜色
 					+ getSpecularLightColor(semi_light_view, normal);		//高光反射光颜色

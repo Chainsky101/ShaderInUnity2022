@@ -66,7 +66,7 @@
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
                 o.uv.xy = TRANSFORM_TEX(v.texcoord, _MainTexture);
-                o.uv.zw = v.texcoord * _BumpMap_ST.xy + _BumpMap_ST.zw;
+                o.uv.zw = v.texcoord.xy * _BumpMap_ST.xy + _BumpMap_ST.zw;
                 float3 vertexWorldPos = mul(UNITY_MATRIX_M, v.vertex);
                 /*
                  *calculate transfer matrix from tangent space to world space in frag callback fuction
@@ -78,10 +78,10 @@
                 fixed3 xAxisWorldDir = UnityObjectToWorldDir(v.tangent);
                 fixed3 zAxisWorldDir = UnityObjectToWorldNormal(v.normal);
                 fixed3 yAxisWorldDir = cross(zAxisWorldDir, xAxisWorldDir) * v.tangent.w;
-                fixed3x3 Matrix_TtoW = fixed3x3(xAxisWorldDir, yAxisWorldDir, zAxisWorldDir);
-                o.MatrixFirst = fixed4(Matrix_TtoW[0], vertexWorldPos.x);
-                o.MatrixSecond = fixed4(Matrix_TtoW[1], vertexWorldPos.y);
-                o.MatrixThird = fixed4(Matrix_TtoW[2], vertexWorldPos.z);
+                // fixed3x3 Matrix_TtoW = fixed3x3(xAxisWorldDir, yAxisWorldDir, zAxisWorldDir);
+                o.MatrixFirst = fixed4(xAxisWorldDir , vertexWorldPos.x);
+                o.MatrixSecond = fixed4(yAxisWorldDir, vertexWorldPos.y);
+                o.MatrixThird = fixed4(zAxisWorldDir, vertexWorldPos.z);
                 UNITY_TRANSFER_FOG(o, o.vertex);
                 return o;
             }
@@ -148,97 +148,97 @@
             }
             ENDCG
         }
-        // 简化版DepthNormals Pass（通常这就够了）
-        Pass
-        {
-            Name "DepthNormals"
-            Tags { "LightMode" = "DepthNormals" }
-            
-            ZWrite On
-            ZTest LEqual
-            Cull Back
-            
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-            #pragma target 3.0
-            
-            #include "UnityCG.cginc"
-            
-            struct appdata
-            {
-                float4 vertex : POSITION;
-                float3 normal : NORMAL;
-            };
-            
-            struct v2f
-            {
-                float4 pos : SV_POSITION;
-                float3 normal : TEXCOORD0;
-            };
-            
-            v2f vert (appdata v)
-            {
-                v2f o;
-                o.pos = UnityObjectToClipPos(v.vertex);
-                
-                // 计算视图空间法线
-                o.normal = mul((float3x3)UNITY_MATRIX_IT_MV, v.normal);
-                o.normal = normalize(o.normal);
-                
-                return o;
-            }
-            
-            float4 frag (v2f i) : SV_Target
-            {
-                // 归一化法线
-                float3 normal = normalize(i.normal);
-                
-                // 只编码法线，深度部分让Unity自动处理
-                // 这是Unity Standard Shader的做法
-                float scale = 1.7777;
-                float2 enc = normal.xy / (normal.z + 1.0);
-                enc /= scale;
-                enc = enc * 0.5 + 0.5;
-                
-                // 返回编码的法线，深度部分设为0
-                return float4(enc, 0.0, 0.0);
-            }
-            ENDCG
-        }
-        // Pass 3: Shadow Caster Pass
-        Pass
-        {
-            Name "ShadowCaster"
-            Tags { "LightMode" = "ShadowCaster" }
-            
-            ZWrite On
-            ZTest LEqual
-            
-            CGPROGRAM
-            #pragma vertex vert
-            #pragma fragment frag
-            #pragma multi_compile_shadowcaster
-            
-            #include "UnityCG.cginc"
-            
-            struct v2f {
-                V2F_SHADOW_CASTER;
-            };
-            
-            v2f vert(appdata_base v)
-            {
-                v2f o;
-                TRANSFER_SHADOW_CASTER_NORMALOFFSET(o)
-                return o;
-            }
-            
-            float4 frag(v2f i) : SV_Target
-            {
-                SHADOW_CASTER_FRAGMENT(i)
-            }
-            ENDCG
-        }
+//        // 简化版DepthNormals Pass（通常这就够了）
+//        Pass
+//        {
+//            Name "DepthNormals"
+//            Tags { "LightMode" = "DepthNormals" }
+//            
+//            ZWrite On
+//            ZTest LEqual
+//            Cull Back
+//            
+//            CGPROGRAM
+//            #pragma vertex vert
+//            #pragma fragment frag
+//            #pragma target 3.0
+//            
+//            #include "UnityCG.cginc"
+//            
+//            struct appdata
+//            {
+//                float4 vertex : POSITION;
+//                float3 normal : NORMAL;
+//            };
+//            
+//            struct v2f
+//            {
+//                float4 pos : SV_POSITION;
+//                float3 normal : TEXCOORD0;
+//            };
+//            
+//            v2f vert (appdata v)
+//            {
+//                v2f o;
+//                o.pos = UnityObjectToClipPos(v.vertex);
+//                
+//                // 计算视图空间法线
+//                o.normal = mul((float3x3)UNITY_MATRIX_IT_MV, v.normal);
+//                o.normal = normalize(o.normal);
+//                
+//                return o;
+//            }
+//            
+//            float4 frag (v2f i) : SV_Target
+//            {
+//                // 归一化法线
+//                float3 normal = normalize(i.normal);
+//                
+//                // 只编码法线，深度部分让Unity自动处理
+//                // 这是Unity Standard Shader的做法
+//                float scale = 1.7777;
+//                float2 enc = normal.xy / (normal.z + 1.0);
+//                enc /= scale;
+//                enc = enc * 0.5 + 0.5;
+//                
+//                // 返回编码的法线，深度部分设为0
+//                return float4(enc, 0.0, 0.0);
+//            }
+//            ENDCG
+//        }
+//        // Pass 3: Shadow Caster Pass
+//        Pass
+//        {
+//            Name "ShadowCaster"
+//            Tags { "LightMode" = "ShadowCaster" }
+//            
+//            ZWrite On
+//            ZTest LEqual
+//            
+//            CGPROGRAM
+//            #pragma vertex vert
+//            #pragma fragment frag
+//            #pragma multi_compile_shadowcaster
+//            
+//            #include "UnityCG.cginc"
+//            
+//            struct v2f {
+//                V2F_SHADOW_CASTER;
+//            };
+//            
+//            v2f vert(appdata_base v)
+//            {
+//                v2f o;
+//                TRANSFER_SHADOW_CASTER_NORMALOFFSET(o)
+//                return o;
+//            }
+//            
+//            float4 frag(v2f i) : SV_Target
+//            {
+//                SHADOW_CASTER_FRAGMENT(i)
+//            }
+//            ENDCG
+//        }
     }
     Fallback "Standard"
 }

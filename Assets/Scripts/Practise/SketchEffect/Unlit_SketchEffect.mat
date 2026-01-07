@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Unlit_SketchEffect
+  m_Shader: {fileID: 4800000, guid: 584e6fe846fcff44daae61744249ca91, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Sketch1:
+        m_Texture: {fileID: 2800000, guid: 602398d47fd0afb4a92f66235eec3d1b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Sketch2:
+        m_Texture: {fileID: 2800000, guid: cc7f86fa034a07943a9b05065a71d0fc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Sketch3:
+        m_Texture: {fileID: 2800000, guid: 35eee6e5c5e06914db1097bfdb01999f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Sketch4:
+        m_Texture: {fileID: 2800000, guid: e6a12fd04b4e4404e94dc675b43553fe, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Sketch5:
+        m_Texture: {fileID: 2800000, guid: 830dce9cac8e72d4c8eac2115358e9cb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Sketch6:
+        m_Texture: {fileID: 2800000, guid: 171f808e4aea6d6439abeef8f39e4e17, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _EdgeSize: 0.01
+    - _TileFactor: 5.97
+    m_Colors:
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EdgeColor: {r: 0, g: 0, b: 0, a: 1}
+  m_BuildTextureStacks: []

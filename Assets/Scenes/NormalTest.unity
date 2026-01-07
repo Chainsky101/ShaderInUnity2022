@@ -14,7 +14,7 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
+  m_Fog: 1
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 190367086}
   - component: {fileID: 190367085}
   - component: {fileID: 190367088}
+  - component: {fileID: 190367089}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -222,12 +223,33 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 190367084}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 69acc68370b842beb79d546274ffd888, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: a5a788175e06dba4fa62dbc37356412f, type: 3}
+--- !u!114 &190367089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 190367084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adc168e4209f4c6bbdd2ddfbe583fa6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: 95cd9f05fba54b73aa2261fa0efc1490, type: 3}
+  xMoveSpeed: 0.1
+  yMoveSpeed: 0.1
+  noiseAmount: 2
+  noiseTexture: {fileID: 2800000, guid: 2dd5f1ae3f3caac42990d45494fd92da, type: 3}
+  fogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  fogDensity: 0.24
+  start: 4
+  end: 10.29
 --- !u!1 &313519159
 GameObject:
   m_ObjectHideFlags: 0
